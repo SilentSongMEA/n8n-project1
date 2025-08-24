@@ -1,0 +1,461 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "insformationen",
+        "formDescription": "model test eins",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "name",
+              "placeholder": "schreiben sie persian bitte."
+            },
+            {
+              "fieldLabel": "family",
+              "placeholder": "schreiben sie persian bitte."
+            },
+            {
+              "fieldLabel": "email",
+              "fieldType": "email",
+              "placeholder": "parsonlich email"
+            },
+            {
+              "fieldLabel": "seine Geld",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "0-100.000"
+                  },
+                  {
+                    "option": "0-10.000"
+                  },
+                  {
+                    "option": "100.000.000-1.000.000.000"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "massege"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "def125ca-2540-4988-90f2-7735912b491b",
+      "name": "On form submission",
+      "webhookId": "37d47650-1d2b-4dbf-baca-4d4b7bcb9e88"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "14wUrerw9HGakEWKVetkZ74nyyHytczKNaICF_JF4qMY",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14wUrerw9HGakEWKVetkZ74nyyHytczKNaICF_JF4qMY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1444298214,
+          "mode": "list",
+          "cachedResultName": "new register",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/14wUrerw9HGakEWKVetkZ74nyyHytczKNaICF_JF4qMY/edit#gid=1444298214"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "family": "={{ $json.family }}",
+            "email": "={{ $json.email }}",
+            "seine Geld": "={{ $json['seine Geld'] }}",
+            "massege": "={{ $json.massege }}",
+            "date": "={{$now}}",
+            "entlassen": "={{$if($json['seine Geld'] ==\"100.000.000-1.000.000.000\",\"Ture\",\"False\")}}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "family",
+              "displayName": "family",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "seine Geld",
+              "displayName": "seine Geld",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "massege",
+              "displayName": "massege",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "entlassen",
+              "displayName": "entlassen",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "53837531-1e3c-4e34-8d34-26ecf94e986c",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "u7S2ueDPm1GoY69D",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dd3087dd-219c-4b92-8e02-0e8aa111d4e3",
+              "leftValue": "={{ $json['seine Geld'] }}",
+              "rightValue": "0-100.000",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "c0873605-cb9a-4754-b914-c5b8edd23b87",
+              "leftValue": "",
+              "rightValue": "0-10.000",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "2991e82a-32cd-45c4-8750-c5b68f3fdadd",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('On form submission').item.json['seine Geld'] }}",
+                    "rightValue": "100.000.000-1.000.000.000",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2b536c39-7ba3-4803-bd15-48ebaf2463d3"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b42d17c3-bfca-4faa-b94f-ec66103bff89",
+                    "leftValue": "={{ $('On form submission').item.json['seine Geld'] }}",
+                    "rightValue": "0-100.000",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "240fbb26-43cc-42e9-a7e8-bbf7592d02d2",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Tair Unternehme",
+        "message": "=Hallo {{$json.name}},\nwir entschuldie sich,da wir nicht seine informationen ausnemhnen können.\nmit freundlich grüßen,\nTair Unternehmen.\n{{ $json.date.toDateTime(dd-MM-yy)}}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        96
+      ],
+      "id": "a54da1d0-08a1-4fec-b6a1-4b29dcab3882",
+      "name": "Send a message",
+      "webhookId": "8372f30c-b55f-40cf-aab3-24c8cf3d7a4c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "s4Wng3CgnY2WEQqP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "Tair Unternehme",
+        "message": "=Hallo {{$json.name}},\nwir freuen uns,weil wir mit ihnen miteinender arbeiten.\nschreiben sie ihnen Uhr fur Einstellung bitte.\nmit freundlich grüßen,\nTair Unternehmen.\n{{ $json.date.toDateTime(dd-MM-yy)}}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "2f9e639d-d16e-46b5-9a41-aebbb8b7632e",
+      "name": "Send a message1",
+      "webhookId": "8372f30c-b55f-40cf-aab3-24c8cf3d7a4c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "s4Wng3CgnY2WEQqP",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1088,
+        -16
+      ],
+      "id": "d297c32b-1443-4931-bf13-7c3bfc647bea",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "Mohadesehasrivmea@gmail.com",
+        "subject": "Kontoroliert Einstellung Tair Unternehmen",
+        "message": "=Kontakte\nname:{{ $('On form submission').item.json.name }}\nfamily:{{ $('On form submission').item.json.family }}\nGeld:{{ $('On form submission').item.json['seine Geld'] }}\nmassege:{{ $('On form submission').item.json.massege }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1296,
+        -16
+      ],
+      "id": "f3fa83c6-90bd-4a99-ac33-d881e2fdcda3",
+      "name": "Send a message2",
+      "webhookId": "171ef034-2166-4826-a183-23a490179d0f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "s4Wng3CgnY2WEQqP",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ea44c548-4a66-427a-9531-462c2f226b1b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a95314e84bbcadf44b257e6886bc40acbf703d1576f7fb3e0fb0e7820b872daf"
+  },
+  "id": "QDuYMvFE3Ax9Yl3O",
+  "tags": []
+}
